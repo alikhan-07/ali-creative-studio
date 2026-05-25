@@ -1,62 +1,217 @@
-import React, { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { GlowBackground } from "@/components/ui/GlowBackground";
+import { Nav } from "@/components/layout/Nav";
 
 export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const orbX = useSpring(mouseX, { stiffness: 15, damping: 30 });
+  const orbY = useSpring(mouseY, { stiffness: 15, damping: 30 });
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const handleMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const cx = (e.clientX - rect.left - rect.width / 2) * 0.025;
+      const cy = (e.clientY - rect.top - rect.height / 2) * 0.025;
+      mouseX.set(cx);
+      mouseY.set(cy);
+    };
+    el.addEventListener("mousemove", handleMove);
+    return () => el.removeEventListener("mousemove", handleMove);
+  }, [mouseX, mouseY]);
+
+  const words = ["We craft", "visually powerful", "digital experiences."];
 
   return (
-    <section 
-      id="hero" 
-      ref={containerRef}
-      className="relative min-h-screen flex items-center px-6 md:px-12 pt-32 overflow-hidden"
+    <section
+      id="hero"
+      ref={sectionRef}
+      className="relative w-full overflow-hidden"
+      style={{ height: "100svh", minHeight: "600px" }}
+      data-testid="hero-section"
     >
-      <motion.div 
-        style={{ y, opacity }}
-        className="max-w-[90vw] md:max-w-[70vw] relative z-10"
-      >
+      {/* Gradient background */}
+      <GlowBackground />
+
+      {/* Nav — inside hero so it sits over the gradient */}
+      <Nav />
+
+      {/* Main headline — centered */}
+      <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center"
+          style={{ x: orbX, y: orbY }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="text-[10px] uppercase tracking-[0.3em] font-medium text-primary mb-8 ml-2">
-            Visionary Design Intelligence
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-light leading-[1.05] tracking-tight text-foreground mb-8">
-            We craft visually <br className="hidden md:block"/>
-            <span className="italic text-foreground/80">powerful</span> digital <br className="hidden md:block"/>
-            experiences.
-          </h1>
-          
-          <p className="text-lg md:text-xl text-foreground/50 max-w-xl font-light leading-relaxed">
-            Creative systems for modern brands with bold vision. We blur the line between precision engineering and cinematic atmosphere.
-          </p>
+          {words.map((line, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.1,
+                delay: 0.5 + i * 0.15,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              <span
+                className="block text-white font-light leading-[1.12] tracking-tight select-none"
+                style={{
+                  fontSize: "clamp(2.4rem, 6.5vw, 6rem)",
+                  textShadow: "0 2px 40px rgba(0,0,0,0.4)",
+                  fontFamily: "'Inter Tight', sans-serif",
+                }}
+              >
+                {line}
+              </span>
+            </motion.div>
+          ))}
         </motion.div>
+      </div>
+
+      {/* Floating glass orb */}
+      <motion.div
+        className="absolute z-30 pointer-events-none"
+        style={{
+          width: "clamp(100px, 16vw, 220px)",
+          height: "clamp(100px, 16vw, 220px)",
+          left: "38%",
+          top: "42%",
+          x: orbX,
+          y: orbY,
+        }}
+        initial={{ opacity: 0, scale: 0.7 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.6, delay: 1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {/* Outer ring */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            border: "1px solid rgba(255,255,255,0.18)",
+            boxShadow: "inset 0 0 40px rgba(255,255,255,0.04), 0 0 60px rgba(0,0,0,0.2)",
+            backdropFilter: "blur(6px)",
+            background:
+              "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 50%, transparent 70%)",
+          }}
+        />
+        {/* Inner highlight arc */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "8%",
+            left: "12%",
+            width: "40%",
+            height: "35%",
+            background:
+              "radial-gradient(ellipse, rgba(255,255,255,0.22) 0%, transparent 80%)",
+            filter: "blur(4px)",
+            transform: "rotate(-20deg)",
+          }}
+        />
+        {/* Reflection dot */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: "18%",
+            left: "22%",
+            width: "8%",
+            height: "8%",
+            background: "rgba(255,255,255,0.55)",
+            filter: "blur(2px)",
+          }}
+        />
       </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-12 left-6 md:left-12 flex items-center gap-4 text-[10px] uppercase tracking-widest text-foreground/40"
+      {/* Bottom info bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 z-30 px-7 md:px-10 pb-7 pt-5"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        style={{
+          background:
+            "linear-gradient(to top, rgba(5,4,12,0.6) 0%, transparent 100%)",
+        }}
       >
-        <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
-          <motion.div 
-            className="absolute top-0 left-0 w-full h-1/2 bg-white"
-            animate={{ top: ["-50%", "100%"] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          />
+        <div className="flex items-end justify-between gap-4">
+          {/* Left toggle icon */}
+          <div className="flex items-end gap-7 md:gap-10">
+            <motion.button
+              whileHover={{ scale: 1.15 }}
+              className="flex flex-col gap-[3px] mb-0.5 cursor-pointer"
+              data-testid="hero-menu-toggle"
+            >
+              <div className="w-5 h-[1.5px] bg-white/70 rounded-full" />
+              <div className="w-3 h-[1.5px] bg-white/40 rounded-full" />
+            </motion.button>
+
+            {/* Metadata columns */}
+            <div className="hidden md:flex items-end gap-10 md:gap-16">
+              {[
+                { top: "Based in India", bottom: "Born in Creativity" },
+                { top: "Design-driven", bottom: "creative studio" },
+                { top: "Branding, digital", bottom: "and experiences" },
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col gap-[2px]">
+                  <span
+                    className="text-[10px] font-medium text-white/90 tracking-[0.1em]"
+                    style={{ fontFamily: "'Inter Tight', sans-serif" }}
+                  >
+                    {item.top}
+                  </span>
+                  <span
+                    className="text-[10px] font-light text-white/50 tracking-[0.08em]"
+                    style={{ fontFamily: "'Inter Tight', sans-serif" }}
+                  >
+                    {item.bottom}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Scroll arrow */}
+          <motion.div
+            data-testid="hero-scroll-arrow"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="text-white/70 cursor-pointer"
+            onClick={() => {
+              const el = document.getElementById("work");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            <svg
+              width="14"
+              height="22"
+              viewBox="0 0 14 22"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line
+                x1="7"
+                y1="0"
+                x2="7"
+                y2="18"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M1 13 L7 20 L13 13"
+                stroke="currentColor"
+                strokeWidth="1"
+                fill="none"
+              />
+            </svg>
+          </motion.div>
         </div>
-        <span className="rotate-90 origin-left translate-y-3">Scroll</span>
       </motion.div>
     </section>
   );
