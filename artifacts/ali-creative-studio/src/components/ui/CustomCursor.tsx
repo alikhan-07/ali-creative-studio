@@ -10,12 +10,9 @@ export function CustomCursor() {
   const prevPos = useRef({ x: -200, y: -200 });
   const smoothAngle = useRef(0);
 
-  // Smooth position — tight spring so it feels responsive
-  const springX = useSpring(cursorX, { stiffness: 500, damping: 40, mass: 0.4 });
-  const springY = useSpring(cursorY, { stiffness: 500, damping: 40, mass: 0.4 });
-
-  // Smooth rotation spring
-  const springAngle = useSpring(angle, { stiffness: 120, damping: 18, mass: 0.6 });
+  const springX = useSpring(cursorX, { stiffness: 600, damping: 45, mass: 0.3 });
+  const springY = useSpring(cursorY, { stiffness: 600, damping: 45, mass: 0.3 });
+  const springAngle = useSpring(angle, { stiffness: 130, damping: 20, mass: 0.5 });
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -26,14 +23,13 @@ export function CustomCursor() {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
 
-      // Only update direction when moving meaningfully
       if (dist > 3) {
-        const raw = Math.atan2(dy, dx) * (180 / Math.PI);
-        // +90 because SVG arrow points up (north = 0°), atan2 right = 0°
-        const target = raw + 90;
+        // atan2 gives: right=0°, down=90°, left=±180°, up=-90°
+        // Arrow image naturally points northeast (upper-right = -45° in atan2)
+        // offset = +45 so that when mouse goes right (0°), arrow points right (45° CW from NE = East)
+        const raw = Math.atan2(dy, dx) * (180 / Math.PI) + 45;
 
-        // Unwrap angle to avoid spinning the long way around
-        let delta = target - smoothAngle.current;
+        let delta = raw - smoothAngle.current;
         while (delta > 180) delta -= 360;
         while (delta < -180) delta += 360;
         smoothAngle.current += delta;
@@ -59,9 +55,7 @@ export function CustomCursor() {
 
   return (
     <>
-      <style>{`
-        *, *::before, *::after { cursor: none !important; }
-      `}</style>
+      <style>{`*, *::before, *::after { cursor: none !important; }`}</style>
 
       <motion.div
         className="fixed top-0 left-0 z-[9999] pointer-events-none"
@@ -72,26 +66,37 @@ export function CustomCursor() {
           translateY: "-50%",
           opacity: visible ? 1 : 0,
         }}
-        animate={{ opacity: visible ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
       >
         <motion.div style={{ rotate: springAngle }}>
-          <svg
-            width="22"
-            height="30"
-            viewBox="0 0 22 30"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/*
+            Pixelated effect: render image at 10×10 inside a 10×10 box,
+            then scale the box up 4× — image-rendering: pixelated makes
+            every pixel a hard square block.
+          */}
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              transform: "scale(4)",
+              transformOrigin: "center",
+              imageRendering: "pixelated",
+            }}
           >
-            {/* Arrow tip */}
-            <path
-              d="M11 1 L20 26 L11 20 L2 26 Z"
-              fill="rgba(255,255,255,0.92)"
-              stroke="rgba(0,0,0,0.35)"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
+            <img
+              src="/cursor-arrow.png"
+              alt=""
+              width={10}
+              height={10}
+              style={{
+                imageRendering: "pixelated",
+                display: "block",
+                width: "100%",
+                height: "100%",
+                mixBlendMode: "screen",
+                filter: "brightness(1.1) contrast(1.2)",
+              }}
             />
-          </svg>
+          </div>
         </motion.div>
       </motion.div>
     </>
