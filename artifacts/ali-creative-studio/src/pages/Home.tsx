@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
+import { Stats } from "@/components/sections/Stats";
 import { Work } from "@/components/sections/Work";
 import { Services } from "@/components/sections/Services";
 import { About } from "@/components/sections/About";
@@ -18,6 +19,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30 selection:text-white">
       <main>
         <Hero />
+        <Stats />
         <Work />
         <Services />
         <About />
