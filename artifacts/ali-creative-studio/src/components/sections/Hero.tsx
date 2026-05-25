@@ -85,83 +85,161 @@ export function Hero() {
 
       {/* Swiss grid headline — strict left-aligned, high contrast */}
       <div
-        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center"
-        style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)", paddingTop: "5rem", paddingBottom: "6rem" }}
+        className="absolute inset-0 z-20"
+        style={{ paddingTop: "4.5rem", paddingBottom: "6rem" }}
       >
-        <motion.div style={{ x: headX, y: headY }} className="flex flex-col items-center w-full">
+        {/* Top grid rule */}
+        <motion.div
+          className="absolute left-0 right-0 h-[1px] bg-white/8"
+          style={{ top: "4.5rem" }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        />
 
-          {/* Eyebrow — centered rule marks */}
+        <motion.div style={{ x: headX, y: headY }} className="h-full flex">
+
+          {/* ── LEFT META COLUMN ── */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-3 mb-7"
+            className="hidden md:flex flex-col justify-between"
+            style={{
+              width: "clamp(90px, 12vw, 150px)",
+              minWidth: 90,
+              borderRight: "1px solid rgba(255,255,255,0.07)",
+              paddingLeft: "clamp(1.2rem, 3vw, 2.5rem)",
+              paddingTop: "clamp(1.5rem, 3vh, 2.5rem)",
+              paddingBottom: "clamp(1.5rem, 3vh, 2.5rem)",
+              paddingRight: "clamp(0.8rem, 2vw, 1.5rem)",
+            }}
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
           >
-            <div className="w-6 h-[1px] bg-white/40" />
-            <span
-              className="text-[9px] uppercase tracking-[0.38em] font-medium text-white/45"
-              style={{ fontFamily: "'Inter Tight', sans-serif" }}
-            >
-              Creative Agency — Est. 2024
-            </span>
-            <div className="w-6 h-[1px] bg-white/40" />
+            {/* Top: reference number */}
+            <div className="flex flex-col gap-1">
+              <span
+                className="text-white/20 font-light"
+                style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "9px", letterSpacing: "0.3em", textTransform: "uppercase" }}
+              >
+                No.
+              </span>
+              <span
+                className="text-white/50 font-light"
+                style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "11px", letterSpacing: "0.15em" }}
+              >
+                01
+              </span>
+            </div>
+
+            {/* Middle: studio name stacked */}
+            <div className="flex flex-col gap-[3px]">
+              {["ALI", "CREATIVE", "STUDIO"].map((w, i) => (
+                <span
+                  key={i}
+                  className="text-white/25 font-light"
+                  style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "8px", letterSpacing: "0.28em" }}
+                >
+                  {w}
+                </span>
+              ))}
+            </div>
+
+            {/* Bottom: location + year */}
+            <div className="flex flex-col gap-[3px]">
+              <span
+                className="text-white/20 font-light"
+                style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "8px", letterSpacing: "0.25em", textTransform: "uppercase" }}
+              >
+                India
+              </span>
+              <span
+                className="text-white/15 font-light"
+                style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "8px", letterSpacing: "0.25em" }}
+              >
+                2024
+              </span>
+            </div>
           </motion.div>
 
-          {/* Main headline — clean editorial centered */}
-          <div className="w-full">
-            {[
-              { text: "We craft visually",  weight: "300", italic: false, opacity: 1    },
-              { text: "powerful digital",   weight: "300", italic: true,  opacity: 0.92 },
-              { text: "experiences.",       weight: "300", italic: false, opacity: 1    },
-            ].map((line, i) => (
-              <div key={i} style={{ overflow: "hidden" }}>
-                <motion.span
-                  className="block text-white select-none"
-                  initial={{ y: "108%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: line.opacity }}
-                  transition={{ duration: 0.65, delay: 0.15 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  style={{
-                    fontFamily: "'Inter Tight', sans-serif",
-                    fontSize: "clamp(2.4rem, 5.6vw, 6.2rem)",
-                    fontWeight: line.weight,
-                    fontStyle: line.italic ? "italic" : "normal",
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.025em",
-                    display: "block",
-                    textAlign: "center",
-                  }}
-                >
-                  {line.text}
-                </motion.span>
-              </div>
-            ))}
-          </div>
-
-          {/* Centered rule */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: "center" }}
-            className="mt-7 mb-5 h-[1px] bg-white/18 w-48"
-          />
-
-          {/* Descriptor — centered, small */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="text-white/40 font-light leading-relaxed text-center"
+          {/* ── RIGHT HEADLINE COLUMN ── */}
+          <div
+            className="flex-1 flex flex-col justify-center"
             style={{
-              fontSize: "clamp(0.7rem, 1vw, 0.82rem)",
-              fontFamily: "'Inter Tight', sans-serif",
-              letterSpacing: "0.06em",
-              maxWidth: "28rem",
+              paddingLeft: "clamp(1.5rem, 4vw, 4rem)",
+              paddingRight: "clamp(1.5rem, 5vw, 6rem)",
             }}
           >
-            Digital experiences for modern brands
-            <br />with bold vision and precise execution.
-          </motion.p>
+            {/* Eyebrow row */}
+            <motion.div
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="w-5 h-[1px] bg-white/35" />
+              <span
+                className="text-white/35 font-medium"
+                style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "8px", letterSpacing: "0.38em", textTransform: "uppercase" }}
+              >
+                Creative Agency — Est. 2024
+              </span>
+            </motion.div>
+
+            {/* Display headline — Swiss grid rhythm */}
+            <div>
+              {[
+                { text: "We craft",        size: "clamp(2rem,   4.8vw, 5.2rem)", weight: "200" },
+                { text: "visually",        size: "clamp(3rem,   7vw,   8rem)",   weight: "700" },
+                { text: "powerful digital",size: "clamp(1.6rem, 3.6vw, 4rem)",   weight: "200" },
+                { text: "experiences.",    size: "clamp(2rem,   4.8vw, 5.2rem)", weight: "200" },
+              ].map((line, i) => (
+                <div key={i} style={{ overflow: "hidden" }}>
+                  <motion.span
+                    className="block text-white select-none leading-none"
+                    initial={{ y: "105%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    transition={{ duration: 0.65, delay: 0.22 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      fontFamily: "'Inter Tight', sans-serif",
+                      fontSize: line.size,
+                      fontWeight: line.weight,
+                      letterSpacing: line.weight === "700" ? "-0.035em" : "-0.01em",
+                      lineHeight: line.weight === "700" ? 1.0 : 1.18,
+                      paddingBottom: "0.08em",
+                    }}
+                  >
+                    {line.text}
+                  </motion.span>
+                </div>
+              ))}
+            </div>
+
+            {/* Horizontal rule */}
+            <motion.div
+              className="h-[1px] bg-white/10 mt-6 mb-4"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              style={{ transformOrigin: "left", maxWidth: "28rem" }}
+            />
+
+            {/* Descriptor */}
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.62 }}
+              className="text-white/30 font-light"
+              style={{
+                fontFamily: "'Inter Tight', sans-serif",
+                fontSize: "clamp(0.65rem, 0.9vw, 0.78rem)",
+                letterSpacing: "0.05em",
+                lineHeight: 1.65,
+                maxWidth: "22rem",
+              }}
+            >
+              Digital experiences for modern brands<br />with bold vision and precise execution.
+            </motion.p>
+          </div>
         </motion.div>
       </div>
 
