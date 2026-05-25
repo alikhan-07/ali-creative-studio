@@ -1,40 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { GlowBackground } from "@/components/ui/GlowBackground";
 import { Nav } from "@/components/layout/Nav";
 
-const PARTICLE_COUNT = 28;
+const PARTICLE_COUNT = 24;
 
-function randomBetween(a: number, b: number) {
-  return a + Math.random() * (b - a);
-}
-
-interface Particle {
-  id: number;
-  x: number;
-  size: number;
-  delay: number;
-  duration: number;
-  opacity: number;
-}
-
-const particles: Particle[] = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
+const particles = Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
   id: i,
-  x: randomBetween(2, 98),
-  size: randomBetween(1, 2.5),
-  delay: randomBetween(0, 8),
-  duration: randomBetween(7, 18),
-  opacity: randomBetween(0.12, 0.35),
+  x: 2 + Math.random() * 96,
+  size: 1 + Math.random() * 1.8,
+  delay: Math.random() * 10,
+  duration: 8 + Math.random() * 14,
+  opacity: 0.1 + Math.random() * 0.22,
 }));
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Raw pixel cursor position (for nav display)
   const [cursorX, setCursorX] = useState(0);
   const [cursorY, setCursorY] = useState(0);
 
-  // Motion values for gradient blobs (absolute px within hero)
   const mouseX = useMotionValue(
     typeof window !== "undefined" ? window.innerWidth / 2 : 640
   );
@@ -42,32 +26,24 @@ export function Hero() {
     typeof window !== "undefined" ? window.innerHeight / 2 : 360
   );
 
-  // Parallax for headline (very subtle)
-  const headX = useSpring(useMotionValue(0), { stiffness: 20, damping: 35 });
-  const headY = useSpring(useMotionValue(0), { stiffness: 20, damping: 35 });
+  const headX = useSpring(useMotionValue(0), { stiffness: 18, damping: 35 });
+  const headY = useSpring(useMotionValue(0), { stiffness: 18, damping: 35 });
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const handleMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
-      // Absolute position within hero for gradient blobs
       mouseX.set(e.clientX - rect.left);
       mouseY.set(e.clientY - rect.top);
-      // Pixel position for nav display
       setCursorX(e.clientX);
       setCursorY(e.clientY);
-      // Subtle parallax offset for headline
-      const cx = (e.clientX - rect.width / 2) * 0.012;
-      const cy = (e.clientY - rect.height / 2) * 0.012;
-      headX.set(cx);
-      headY.set(cy);
+      headX.set((e.clientX - rect.width / 2) * 0.01);
+      headY.set((e.clientY - rect.height / 2) * 0.01);
     };
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
   }, [mouseX, mouseY, headX, headY]);
-
-  const words = ["We craft", "visually powerful", "digital experiences."];
 
   return (
     <section
@@ -77,13 +53,10 @@ export function Hero() {
       style={{ height: "100svh", minHeight: "600px" }}
       data-testid="hero-section"
     >
-      {/* Gradient + dot matrix background */}
       <GlowBackground mouseX={mouseX} mouseY={mouseY} />
-
-      {/* Nav — sits over the hero gradient */}
       <Nav cursorX={cursorX} cursorY={cursorY} />
 
-      {/* Antigravity floating particles */}
+      {/* Antigravity particles */}
       <div className="absolute inset-0 z-[15] pointer-events-none overflow-hidden">
         {particles.map((p) => (
           <motion.div
@@ -97,8 +70,8 @@ export function Hero() {
               opacity: 0,
             }}
             animate={{
-              y: [0, -window.innerHeight - 20],
-              opacity: [0, p.opacity, p.opacity * 0.6, 0],
+              y: [0, -(typeof window !== "undefined" ? window.innerHeight : 800) - 20],
+              opacity: [0, p.opacity, p.opacity * 0.5, 0],
             }}
             transition={{
               duration: p.duration,
@@ -110,38 +83,86 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Main headline — centered */}
-      <div className="absolute inset-0 flex items-center justify-center z-20 px-6">
-        <motion.div
-          className="text-center"
-          style={{ x: headX, y: headY }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {words.map((line, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 38 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.1,
-                delay: 0.5 + i * 0.14,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+      {/* Swiss grid headline — strict left-aligned, high contrast */}
+      <div
+        className="absolute inset-0 z-20 flex flex-col justify-center"
+        style={{ paddingLeft: "clamp(2rem, 6vw, 7rem)", paddingRight: "clamp(2rem, 6vw, 7rem)" }}
+      >
+        <motion.div style={{ x: headX, y: headY }}>
+
+          {/* Eyebrow label — Swiss rule */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex items-center gap-4 mb-6"
+          >
+            <div className="w-8 h-[1px] bg-white/60" />
+            <span
+              className="text-[10px] uppercase tracking-[0.35em] font-medium text-white/60"
+              style={{ fontFamily: "'Inter Tight', sans-serif" }}
             >
-              <span
-                className="block text-white font-light leading-[1.12] tracking-tight select-none"
-                style={{
-                  fontSize: "clamp(2.4rem, 6.5vw, 6rem)",
-                  textShadow: "0 2px 40px rgba(0,0,0,0.5)",
-                  fontFamily: "'Inter Tight', sans-serif",
+              Creative Agency — Est. 2024
+            </span>
+          </motion.div>
+
+          {/* Main headline — Swiss black weight, rigid grid */}
+          <div className="overflow-hidden">
+            {[
+              { text: "WE CRAFT", weight: "900", size: "clamp(3rem, 9vw, 9.5rem)" },
+              { text: "VISUALLY", weight: "300", size: "clamp(3rem, 9vw, 9.5rem)" },
+              { text: "POWERFUL.", weight: "900", size: "clamp(3rem, 9vw, 9.5rem)" },
+            ].map((line, i) => (
+              <motion.div
+                key={i}
+                initial={{ y: "110%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{
+                  duration: 0.9,
+                  delay: 0.45 + i * 0.1,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
+                style={{ overflow: "hidden" }}
               >
-                {line}
-              </span>
-            </motion.div>
-          ))}
+                <span
+                  className="block text-white leading-[0.95] tracking-[-0.02em] select-none"
+                  style={{
+                    fontSize: line.size,
+                    fontWeight: line.weight,
+                    fontFamily: "'Inter Tight', sans-serif",
+                    letterSpacing: line.weight === "900" ? "-0.03em" : "0.01em",
+                  }}
+                >
+                  {line.text}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Divider line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: "left" }}
+            className="mt-8 mb-6 h-[1px] bg-white/20 w-full max-w-lg"
+          />
+
+          {/* Descriptor — light weight, Swiss grid offset */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.05 }}
+            className="text-white/50 font-light leading-relaxed max-w-sm"
+            style={{
+              fontSize: "clamp(0.75rem, 1.1vw, 0.9rem)",
+              fontFamily: "'Inter Tight', sans-serif",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Digital experiences for modern brands
+            <br />with bold vision and precise execution.
+          </motion.p>
         </motion.div>
       </div>
 
@@ -152,12 +173,10 @@ export function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1.2 }}
         style={{
-          background:
-            "linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%)",
+          background: "linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%)",
         }}
       >
         <div className="flex items-end justify-between gap-4">
-          {/* Left toggle + metadata */}
           <div className="flex items-end gap-7 md:gap-10">
             <motion.button
               whileHover={{ scale: 1.15 }}
@@ -176,13 +195,13 @@ export function Hero() {
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-[2px]">
                   <span
-                    className="text-[10px] font-medium text-white/90 tracking-[0.1em]"
+                    className="text-[10px] font-medium text-white/90 tracking-[0.12em] uppercase"
                     style={{ fontFamily: "'Inter Tight', sans-serif" }}
                   >
                     {item.top}
                   </span>
                   <span
-                    className="text-[10px] font-light text-white/45 tracking-[0.08em]"
+                    className="text-[10px] font-light text-white/40 tracking-[0.08em]"
                     style={{ fontFamily: "'Inter Tight', sans-serif" }}
                   >
                     {item.bottom}
@@ -192,24 +211,17 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Scroll arrow */}
           <motion.div
             data-testid="hero-scroll-arrow"
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            className="text-white/60 cursor-pointer"
+            className="text-white/50 cursor-pointer"
             onClick={() => {
               const el = document.getElementById("work");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
           >
-            <svg
-              width="14"
-              height="22"
-              viewBox="0 0 14 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="14" height="22" viewBox="0 0 14 22" fill="none">
               <line x1="7" y1="0" x2="7" y2="18" stroke="currentColor" strokeWidth="1" />
               <path d="M1 13 L7 20 L13 13" stroke="currentColor" strokeWidth="1" fill="none" />
             </svg>

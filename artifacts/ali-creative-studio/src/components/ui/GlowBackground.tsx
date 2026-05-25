@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 interface GlowBackgroundProps {
@@ -7,120 +7,136 @@ interface GlowBackgroundProps {
 }
 
 export function GlowBackground({ mouseX, mouseY }: GlowBackgroundProps) {
-  // Primary blob — fast follow (liquid lead)
-  const px = useSpring(mouseX, { stiffness: 80, damping: 22 });
-  const py = useSpring(mouseY, { stiffness: 80, damping: 22 });
+  // Red blob — fast follow
+  const rx = useSpring(mouseX, { stiffness: 80, damping: 22 });
+  const ry = useSpring(mouseY, { stiffness: 80, damping: 22 });
 
-  // Secondary blob — slower, lags behind (liquid trail)
-  const sx = useSpring(mouseX, { stiffness: 30, damping: 28 });
-  const sy = useSpring(mouseY, { stiffness: 30, damping: 28 });
+  // Blue blob — medium lag
+  const bx = useSpring(mouseX, { stiffness: 30, damping: 28 });
+  const by = useSpring(mouseY, { stiffness: 30, damping: 28 });
 
-  // Tertiary blob — very slow (liquid shadow)
-  const tx = useSpring(mouseX, { stiffness: 12, damping: 32 });
-  const ty = useSpring(mouseY, { stiffness: 12, damping: 32 });
+  // Off-white bloom — very slow
+  const wx = useSpring(mouseX, { stiffness: 12, damping: 32 });
+  const wy = useSpring(mouseY, { stiffness: 12, damping: 32 });
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Dark base */}
+      {/* Base */}
       <div className="absolute inset-0" style={{ background: "#050505" }} />
 
-      {/* Dot matrix grid */}
+      {/* Dot matrix */}
       <div
         className="absolute inset-0 z-[2]"
         style={{
           backgroundImage:
-            "radial-gradient(circle, rgba(255,255,255,0.13) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(255,255,255,0.11) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
         }}
       />
 
-      {/* Primary liquid blob — follows cursor tightly */}
+      {/* RED — primary, fast, tight follow */}
       <motion.div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: "38vw",
-          height: "38vw",
-          x: px,
-          y: py,
+          width: "34vw",
+          height: "34vw",
+          x: rx,
+          y: ry,
           translateX: "-50%",
           translateY: "-50%",
           background:
-            "radial-gradient(circle, rgba(200,45,10,0.85) 0%, rgba(160,30,8,0.6) 35%, transparent 70%)",
-          filter: "blur(55px)",
-          opacity: 0.75,
+            "radial-gradient(circle, rgba(220,30,10,0.9) 0%, rgba(170,20,5,0.55) 45%, transparent 70%)",
+          filter: "blur(50px)",
+          opacity: 0.8,
           zIndex: 3,
         }}
       />
 
-      {/* Secondary liquid blob — lags, creates liquid stretch */}
+      {/* BLUE — medium lag, offset left-up from cursor */}
       <motion.div
         className="absolute rounded-full pointer-events-none"
         style={{
           width: "30vw",
           height: "30vw",
-          x: sx,
-          y: sy,
-          translateX: "-50%",
-          translateY: "-50%",
+          x: bx,
+          y: by,
+          translateX: "-80%",
+          translateY: "-80%",
           background:
-            "radial-gradient(circle, rgba(230,60,15,0.7) 0%, rgba(180,40,10,0.4) 45%, transparent 70%)",
-          filter: "blur(70px)",
-          opacity: 0.6,
+            "radial-gradient(circle, rgba(15,60,220,0.85) 0%, rgba(8,35,160,0.5) 45%, transparent 70%)",
+          filter: "blur(65px)",
+          opacity: 0.7,
           zIndex: 3,
         }}
       />
 
-      {/* Tertiary blob — deep blue, very slow */}
+      {/* OFF-WHITE bloom — very slow, offset below cursor */}
       <motion.div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: "28vw",
-          height: "28vw",
-          x: tx,
-          y: ty,
-          translateX: "-30%",
-          translateY: "-70%",
+          width: "22vw",
+          height: "22vw",
+          x: wx,
+          y: wy,
+          translateX: "20%",
+          translateY: "20%",
           background:
-            "radial-gradient(circle, rgba(10,60,180,0.6) 0%, rgba(5,30,110,0.35) 50%, transparent 70%)",
-          filter: "blur(80px)",
+            "radial-gradient(circle, rgba(240,235,220,0.45) 0%, rgba(200,195,180,0.18) 50%, transparent 72%)",
+          filter: "blur(55px)",
           opacity: 0.55,
           zIndex: 3,
         }}
       />
 
-      {/* Static ambient — top-left faint blue anchor */}
+      {/* Static ambient — faint blue anchor top-left */}
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: "35vw",
-          height: "35vw",
-          top: "-8vw",
-          left: "-8vw",
+          width: "30vw",
+          height: "30vw",
+          top: "-6vw",
+          left: "-6vw",
           background:
-            "radial-gradient(circle, rgba(15,50,150,0.35) 0%, transparent 70%)",
-          filter: "blur(90px)",
-          opacity: 0.45,
+            "radial-gradient(circle, rgba(10,40,160,0.3) 0%, transparent 70%)",
+          filter: "blur(80px)",
+          opacity: 0.4,
           zIndex: 2,
         }}
       />
 
-      {/* Grain overlay — filmic texture */}
+      {/* Static ambient — faint red anchor bottom-right */}
+      <div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: "25vw",
+          height: "25vw",
+          bottom: "-4vw",
+          right: "-4vw",
+          background:
+            "radial-gradient(circle, rgba(180,20,5,0.25) 0%, transparent 70%)",
+          filter: "blur(70px)",
+          opacity: 0.35,
+          zIndex: 2,
+        }}
+      />
+
+      {/* Grain overlay */}
       <div
         className="absolute inset-0 z-[8]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
           backgroundSize: "200px 200px",
-          opacity: 0.13,
+          opacity: 0.12,
           mixBlendMode: "overlay",
         }}
       />
 
-      {/* Top vignette */}
+      {/* Top/bottom vignette */}
       <div
         className="absolute inset-0 z-[9]"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(5,5,5,0.82) 0%, transparent 22%, transparent 72%, rgba(5,5,5,0.88) 100%)",
+            "linear-gradient(to bottom, rgba(5,5,5,0.85) 0%, transparent 20%, transparent 75%, rgba(5,5,5,0.9) 100%)",
         }}
       />
     </div>
