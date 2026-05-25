@@ -78,8 +78,8 @@ export function GlowBackground({ mouseX, mouseY }: GlowBackgroundProps) {
           height: "22vw",
           x: wx,
           y: wy,
-          translateX: "20%",
-          translateY: "20%",
+          translateX: "-50%",
+          translateY: "-50%",
           background:
             "radial-gradient(circle, rgba(240,235,220,0.45) 0%, rgba(200,195,180,0.18) 50%, transparent 72%)",
           filter: "blur(55px)",

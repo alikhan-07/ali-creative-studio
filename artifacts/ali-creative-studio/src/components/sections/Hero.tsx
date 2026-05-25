@@ -107,25 +107,26 @@ export function Hero() {
             <div className="w-6 h-[1px] bg-white/40" />
           </motion.div>
 
-          {/* Main headline — Swiss grid: thin / bold / thin contrast, centered */}
+          {/* Main headline — clean editorial centered */}
           <div className="w-full">
             {[
-              { text: "We craft visually",   weight: "200", size: "clamp(2.2rem, 5.2vw, 5.8rem)", ls: "0.01em"  },
-              { text: "POWERFUL",            weight: "800", size: "clamp(3rem,   7.2vw, 8rem)",   ls: "-0.04em" },
-              { text: "digital experiences", weight: "200", size: "clamp(2.2rem, 5.2vw, 5.8rem)", ls: "0.01em"  },
+              { text: "We craft visually",  weight: "300", italic: false, opacity: 1    },
+              { text: "powerful digital",   weight: "300", italic: true,  opacity: 0.92 },
+              { text: "experiences.",       weight: "300", italic: false, opacity: 1    },
             ].map((line, i) => (
               <div key={i} style={{ overflow: "hidden" }}>
                 <motion.span
                   className="block text-white select-none"
                   initial={{ y: "108%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
+                  animate={{ y: "0%", opacity: line.opacity }}
                   transition={{ duration: 0.65, delay: 0.15 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   style={{
                     fontFamily: "'Inter Tight', sans-serif",
-                    fontSize: line.size,
+                    fontSize: "clamp(2.4rem, 5.6vw, 6.2rem)",
                     fontWeight: line.weight,
-                    lineHeight: line.weight === "800" ? 1.0 : 1.12,
-                    letterSpacing: line.ls,
+                    fontStyle: line.italic ? "italic" : "normal",
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.025em",
                     display: "block",
                     textAlign: "center",
                   }}
@@ -166,13 +167,11 @@ export function Hero() {
 
       {/* Bottom info bar */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-30 px-7 md:px-10 pb-7 pt-5"
-        initial={{ opacity: 0, y: 20 }}
+        className="absolute left-0 right-0 z-30 px-7 md:px-10 pb-4 pt-3"
+        style={{ bottom: 0, background: "linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%)" }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        style={{
-          background: "linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%)",
-        }}
+        transition={{ duration: 0.6, delay: 0.4 }}
       >
         <div className="flex items-end justify-between gap-4">
           <div className="flex items-end gap-7 md:gap-10">
