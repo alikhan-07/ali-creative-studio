@@ -25,6 +25,11 @@ function useClock(timeZone: string) {
   return time;
 }
 
+interface NavProps {
+  cursorX: number;
+  cursorY: number;
+}
+
 const navCols = [
   [
     { label: "HOME", id: "hero", active: true },
@@ -37,10 +42,8 @@ const navCols = [
   ],
 ];
 
-export function Nav() {
+export function Nav({ cursorX, cursorY }: NavProps) {
   const mumbai = useClock("Asia/Kolkata");
-  const london = useClock("Europe/London");
-  const ny = useClock("America/New_York");
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -74,12 +77,9 @@ export function Nav() {
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
                 data-testid={`nav-link-${item.id}`}
-                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] font-medium text-left cursor-pointer transition-colors duration-200"
-                style={{ color: item.active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.5)" }}
+                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] font-medium text-left cursor-pointer transition-colors duration-200 hover:text-white/90"
+                style={{ color: item.active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)" }}
               >
-                {item.active && (
-                  <span className="text-[8px] text-white/80">▶</span>
-                )}
                 {item.label}
               </button>
             ))}
@@ -87,14 +87,19 @@ export function Nav() {
         ))}
       </div>
 
-      {/* Clocks — right */}
+      {/* Right — clock + cursor position */}
       <div
         className="hidden md:flex flex-col items-end gap-[5px]"
-        data-testid="nav-clocks"
+        data-testid="nav-right"
       >
-        <div className="text-[10px] tracking-[0.18em] font-medium text-white/90">{mumbai}</div>
-        <div className="text-[10px] tracking-[0.18em] font-medium text-white/40">{london}</div>
-        <div className="text-[10px] tracking-[0.18em] font-medium text-white/40">{ny}</div>
+        <div className="text-[10px] tracking-[0.18em] font-medium text-white/80">{mumbai}</div>
+        <div
+          className="text-[9px] tracking-[0.14em] font-light tabular-nums"
+          style={{ color: "rgba(255,255,255,0.35)" }}
+          data-testid="nav-cursor-pos"
+        >
+          {String(Math.round(cursorX)).padStart(4, "0")} / {String(Math.round(cursorY)).padStart(4, "0")}
+        </div>
       </div>
     </motion.nav>
   );
