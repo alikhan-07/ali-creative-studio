@@ -81,17 +81,17 @@ export function Stats() {
         style={{ maxWidth: "1200px", paddingLeft: "clamp(1.5rem, 5vw, 4rem)", paddingRight: "clamp(1.5rem, 5vw, 4rem)" }}
       >
         {/* Cards grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 items-start">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 items-stretch">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
+              className="flex"
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.08 * i, ease: [0.16, 1, 0.3, 1] }}
-              style={{ marginTop: stat.offset }}
             >
               <div
-                className="relative flex flex-col justify-between group"
+                className="relative flex flex-col justify-between group w-full"
                 style={{
                   background: "rgba(255,255,255,0.025)",
                   border: "1px solid rgba(255,255,255,0.07)",
