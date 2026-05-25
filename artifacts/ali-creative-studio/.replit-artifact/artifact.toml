@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Ali Creative Studio"
+version = "1.0.0"
+id = "artifacts/ali-creative-studio"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19632
+
+[services.development]
+run = "pnpm --filter @workspace/ali-creative-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ali-creative-studio", "run", "build" ]
+publicDir = "artifacts/ali-creative-studio/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19632"
+BASE_PATH = "/"
