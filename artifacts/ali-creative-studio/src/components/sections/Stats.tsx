@@ -80,23 +80,6 @@ export function Stats() {
         className="mx-auto"
         style={{ maxWidth: "1200px", paddingLeft: "clamp(1.5rem, 5vw, 4rem)", paddingRight: "clamp(1.5rem, 5vw, 4rem)" }}
       >
-        {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-16"
-        >
-          <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-          <span
-            className="text-white/35 font-medium uppercase tracking-[0.3em]"
-            style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "9px" }}
-          >
-            Numbers that speak
-          </span>
-          <div className="flex-1 h-[1px] bg-white/6 max-w-[80px]" />
-        </motion.div>
-
         {/* Cards grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 items-start">
           {stats.map((stat, i) => (
