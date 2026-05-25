@@ -86,7 +86,7 @@ export function Hero() {
       {/* Swiss grid headline — strict left-aligned, high contrast */}
       <div
         className="absolute inset-0 z-20 flex flex-col justify-center"
-        style={{ paddingLeft: "clamp(2rem, 6vw, 7rem)", paddingRight: "clamp(2rem, 6vw, 7rem)" }}
+        style={{ paddingLeft: "clamp(2rem, 6vw, 7rem)", paddingRight: "clamp(2rem, 6vw, 7rem)", paddingTop: "5rem", paddingBottom: "6rem" }}
       >
         <motion.div style={{ x: headX, y: headY }}>
 
@@ -106,36 +106,35 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* Main headline — Swiss black weight, rigid grid */}
-          <div className="overflow-hidden">
+          {/* Main headline — editorial, elegant, mixed weight */}
+          <div>
             {[
-              { text: "WE CRAFT", weight: "900", size: "clamp(3rem, 9vw, 9.5rem)" },
-              { text: "VISUALLY", weight: "300", size: "clamp(3rem, 9vw, 9.5rem)" },
-              { text: "POWERFUL.", weight: "900", size: "clamp(3rem, 9vw, 9.5rem)" },
+              { text: "We craft visually", weight: "300", italic: false },
+              { text: "powerful digital", weight: "400", italic: true },
+              { text: "experiences.", weight: "300", italic: false },
             ].map((line, i) => (
-              <motion.div
-                key={i}
-                initial={{ y: "110%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                transition={{
-                  duration: 0.9,
-                  delay: 0.45 + i * 0.1,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                style={{ overflow: "hidden" }}
-              >
-                <span
-                  className="block text-white leading-[0.95] tracking-[-0.02em] select-none"
+              <div key={i} style={{ overflow: "hidden" }}>
+                <motion.span
+                  className="block text-white select-none"
+                  initial={{ y: "105%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{
+                    duration: 0.7,
+                    delay: 0.1 + i * 0.08,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   style={{
-                    fontSize: line.size,
+                    fontSize: "clamp(2rem, 4.8vw, 5.4rem)",
                     fontWeight: line.weight,
+                    fontStyle: line.italic ? "italic" : "normal",
                     fontFamily: "'Inter Tight', sans-serif",
-                    letterSpacing: line.weight === "900" ? "-0.03em" : "0.01em",
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   {line.text}
-                </span>
-              </motion.div>
+                </motion.span>
+              </div>
             ))}
           </div>
 

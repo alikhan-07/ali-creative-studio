@@ -55,7 +55,7 @@ export function Nav({ cursorX, cursorY }: NavProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, delay: 0.3 }}
-      className="absolute top-0 left-0 right-0 z-50 px-7 py-6 md:px-10 flex items-start justify-between"
+      className="absolute top-0 left-0 right-0 z-50 px-7 py-4 md:px-10 flex items-start justify-between"
       data-testid="nav"
     >
       {/* Brand */}
