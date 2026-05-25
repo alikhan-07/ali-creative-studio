@@ -55,12 +55,12 @@ export function Nav({ cursorX, cursorY }: NavProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2, delay: 0.3 }}
-      className="absolute top-0 left-0 right-0 z-50 px-7 py-4 md:px-10 flex items-start justify-between"
+      className="absolute top-0 left-0 right-0 z-50 px-6 py-3 md:px-9 flex items-start justify-between"
       data-testid="nav"
     >
       {/* Brand */}
       <div
-        className="text-[11px] uppercase tracking-[0.22em] font-medium text-white/90 mt-0.5 flex items-center gap-2"
+        className="text-[9px] uppercase tracking-[0.22em] font-medium text-white/90 mt-0.5 flex items-center gap-2"
         data-testid="nav-brand"
       >
         <span>Ali Creative Studio</span>
@@ -77,7 +77,7 @@ export function Nav({ cursorX, cursorY }: NavProps) {
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
                 data-testid={`nav-link-${item.id}`}
-                className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] font-medium text-left cursor-pointer transition-colors duration-200 hover:text-white/90"
+                className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.22em] font-medium text-left cursor-pointer transition-colors duration-200 hover:text-white/90"
                 style={{ color: item.active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)" }}
               >
                 {item.label}

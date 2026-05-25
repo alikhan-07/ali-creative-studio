@@ -85,51 +85,49 @@ export function Hero() {
 
       {/* Swiss grid headline — strict left-aligned, high contrast */}
       <div
-        className="absolute inset-0 z-20 flex flex-col justify-center"
-        style={{ paddingLeft: "clamp(2rem, 6vw, 7rem)", paddingRight: "clamp(2rem, 6vw, 7rem)", paddingTop: "5rem", paddingBottom: "6rem" }}
+        className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center"
+        style={{ paddingLeft: "clamp(1.5rem, 5vw, 6rem)", paddingRight: "clamp(1.5rem, 5vw, 6rem)", paddingTop: "5rem", paddingBottom: "6rem" }}
       >
-        <motion.div style={{ x: headX, y: headY }}>
+        <motion.div style={{ x: headX, y: headY }} className="flex flex-col items-center w-full">
 
-          {/* Eyebrow label — Swiss rule */}
+          {/* Eyebrow — centered rule marks */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex items-center gap-4 mb-6"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex items-center gap-3 mb-7"
           >
-            <div className="w-8 h-[1px] bg-white/60" />
+            <div className="w-6 h-[1px] bg-white/40" />
             <span
-              className="text-[10px] uppercase tracking-[0.35em] font-medium text-white/60"
+              className="text-[9px] uppercase tracking-[0.38em] font-medium text-white/45"
               style={{ fontFamily: "'Inter Tight', sans-serif" }}
             >
               Creative Agency — Est. 2024
             </span>
+            <div className="w-6 h-[1px] bg-white/40" />
           </motion.div>
 
-          {/* Main headline — editorial, elegant, mixed weight */}
-          <div>
+          {/* Main headline — Swiss grid: thin / bold / thin contrast, centered */}
+          <div className="w-full">
             {[
-              { text: "We craft visually", weight: "300", italic: false },
-              { text: "powerful digital", weight: "400", italic: true },
-              { text: "experiences.", weight: "300", italic: false },
+              { text: "We craft visually",   weight: "200", size: "clamp(2.2rem, 5.2vw, 5.8rem)", ls: "0.01em"  },
+              { text: "POWERFUL",            weight: "800", size: "clamp(3rem,   7.2vw, 8rem)",   ls: "-0.04em" },
+              { text: "digital experiences", weight: "200", size: "clamp(2.2rem, 5.2vw, 5.8rem)", ls: "0.01em"  },
             ].map((line, i) => (
               <div key={i} style={{ overflow: "hidden" }}>
                 <motion.span
                   className="block text-white select-none"
-                  initial={{ y: "105%", opacity: 0 }}
+                  initial={{ y: "108%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: 0.1 + i * 0.08,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
+                  transition={{ duration: 0.65, delay: 0.15 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    fontSize: "clamp(2rem, 4.8vw, 5.4rem)",
-                    fontWeight: line.weight,
-                    fontStyle: line.italic ? "italic" : "normal",
                     fontFamily: "'Inter Tight', sans-serif",
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.02em",
+                    fontSize: line.size,
+                    fontWeight: line.weight,
+                    lineHeight: line.weight === "800" ? 1.0 : 1.12,
+                    letterSpacing: line.ls,
+                    display: "block",
+                    textAlign: "center",
                   }}
                 >
                   {line.text}
@@ -138,25 +136,26 @@ export function Hero() {
             ))}
           </div>
 
-          {/* Divider line */}
+          {/* Centered rule */}
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transformOrigin: "left" }}
-            className="mt-8 mb-6 h-[1px] bg-white/20 w-full max-w-lg"
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: "center" }}
+            className="mt-7 mb-5 h-[1px] bg-white/18 w-48"
           />
 
-          {/* Descriptor — light weight, Swiss grid offset */}
+          {/* Descriptor — centered, small */}
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.05 }}
-            className="text-white/50 font-light leading-relaxed max-w-sm"
+            transition={{ duration: 0.7, delay: 0.55 }}
+            className="text-white/40 font-light leading-relaxed text-center"
             style={{
-              fontSize: "clamp(0.75rem, 1.1vw, 0.9rem)",
+              fontSize: "clamp(0.7rem, 1vw, 0.82rem)",
               fontFamily: "'Inter Tight', sans-serif",
-              letterSpacing: "0.02em",
+              letterSpacing: "0.06em",
+              maxWidth: "28rem",
             }}
           >
             Digital experiences for modern brands
