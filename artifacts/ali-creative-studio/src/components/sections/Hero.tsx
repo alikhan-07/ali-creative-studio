@@ -167,8 +167,8 @@ export function Hero() {
 
       {/* Bottom info bar */}
       <motion.div
-        className="absolute left-0 right-0 z-30 px-7 md:px-10 pb-4 pt-3"
-        style={{ bottom: "1.5rem", background: "linear-gradient(to top, rgba(5,5,5,0.75) 0%, transparent 100%)" }}
+        className="absolute left-0 right-0 z-30 px-7 md:px-10 pb-5 pt-6"
+        style={{ bottom: "0", background: "linear-gradient(to top, rgba(5,5,5,0.85) 0%, transparent 100%)" }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
