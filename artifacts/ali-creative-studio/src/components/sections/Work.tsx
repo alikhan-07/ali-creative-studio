@@ -71,26 +71,37 @@ export function Work() {
     el.scrollLeft = STRIDE * UNIT * 2; // start at 3rd copy
   }, []);
 
-  /* ── Auto-scroll + centre detection ── */
+  /* ── Auto-scroll + centre detection via real DOM positions ── */
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const singleBand = STRIDE * UNIT; // width of one set of cards
+    const singleBand = STRIDE * UNIT;
 
     const tick = () => {
       if (!isHoveringRef.current && el) {
         el.scrollLeft += SCROLL_SPEED;
-
-        // Seamless loop: jump back one band when past the 4th copy start
         if (el.scrollLeft >= singleBand * 4) el.scrollLeft -= singleBand;
         if (el.scrollLeft < singleBand) el.scrollLeft += singleBand;
-
-        // Which project index is closest to the visible centre?
-        const centerX = el.scrollLeft + el.clientWidth / 2;
-        const rawIdx = Math.round(centerX / STRIDE);
-        setCenterIdx(((rawIdx % UNIT) + UNIT) % UNIT);
       }
+
+      // Always re-detect centre from real bounding rects for accuracy
+      const containerRect = el.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+      const cards = el.querySelectorAll<HTMLElement>("[data-card-proj]");
+      let closestIdx = 0;
+      let closestDist = Infinity;
+      cards.forEach(card => {
+        const r = card.getBoundingClientRect();
+        const cardCenter = r.left + r.width / 2;
+        const dist = Math.abs(cardCenter - containerCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIdx = parseInt(card.dataset.cardProj ?? "0");
+        }
+      });
+      setCenterIdx(closestIdx);
+
       rafRef.current = requestAnimationFrame(tick);
     };
 
@@ -176,7 +187,7 @@ export function Work() {
             <div
               key={i}
               className="flex-shrink-0 flex flex-col"
-              style={{ width: CARD_W }}
+              style={{ width: CARD_W, position: "relative", zIndex: isActive ? 10 : 1 }}
               onMouseEnter={() => setHoveredIdx(projIdx)}
               onMouseLeave={() => setHoveredIdx(null)}
             >
@@ -192,15 +203,16 @@ export function Work() {
                 </span>
               </div>
 
-              {/* Card — scale transform so it doesn't push siblings */}
+              {/* Card — scale from top so label stays anchored */}
               <motion.div
+                data-card-proj={projIdx}
                 animate={{ scale: isActive ? ACTIVE_SCALE : 1 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   width: CARD_W,
                   height: CARD_H,
                   originX: 0.5,
-                  originY: 0.5,
+                  originY: 0,        /* grow downward from top edge */
                   position: "relative",
                   borderRadius: 12,
                   overflow: "hidden",
