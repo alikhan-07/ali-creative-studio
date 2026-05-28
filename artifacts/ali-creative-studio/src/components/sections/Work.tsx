@@ -192,19 +192,7 @@ export function Work() {
               onMouseEnter={() => setHoveredIdx(projIdx)}
               onMouseLeave={() => setHoveredIdx(null)}
             >
-              {/* Label above */}
-              <div className="flex items-center gap-2 mb-2" style={{ opacity: isActive ? 0.75 : 0.35, transition: "opacity 0.3s" }}>
-                <span className="text-white font-medium"
-                  style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "9px", letterSpacing: "0.25em" }}>
-                  {project.num}
-                </span>
-                <span className="text-white/60 uppercase font-light truncate"
-                  style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "9px", letterSpacing: "0.2em" }}>
-                  {project.title}
-                </span>
-              </div>
-
-              {/* Card — scale from top so label stays anchored */}
+              {/* Card — scale from top */}
               <motion.div
                 data-card-proj={projIdx}
                 animate={{ scale: isActive ? ACTIVE_SCALE : 1 }}
@@ -256,19 +244,6 @@ export function Work() {
                     transition: "filter 0.4s ease",
                   }}
                 />
-
-                {/* Bottom info overlay */}
-                <div className="absolute bottom-0 left-0 right-0 z-10 p-3"
-                  style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)" }}>
-                  <p className="text-white font-medium leading-tight mb-0.5"
-                    style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: 12 }}>
-                    {project.title}
-                  </p>
-                  <p className="text-white/40 font-light uppercase tracking-wider"
-                    style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: "7.5px", letterSpacing: "0.2em" }}>
-                    {project.category}
-                  </p>
-                </div>
 
                 {/* Active glow */}
                 {isActive && (
