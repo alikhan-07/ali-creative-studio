@@ -115,8 +115,8 @@ export function Work() {
     <section
       id="work"
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
-      style={{ background: "#050505", paddingTop: "5rem", paddingBottom: "5rem" }}
+      className="relative w-full"
+      style={{ background: "#050505", paddingTop: "5rem", paddingBottom: "5rem", overflowX: "clip" }}
     >
       {/* ── Huge headline ── */}
       <div
@@ -170,8 +170,8 @@ export function Work() {
           gap: GAP,
           paddingLeft: "clamp(1.5rem,4vw,3.5rem)",
           paddingRight: "clamp(1.5rem,4vw,3.5rem)",
-          paddingTop: 40,    // room for scale overflow
-          paddingBottom: 40,
+          paddingTop: 40,
+          paddingBottom: 110,  // CARD_H * (ACTIVE_SCALE-1) = 300*0.30 = 90px + buffer
           scrollbarWidth: "none",
           msOverflowStyle: "none",
           userSelect: "none",
