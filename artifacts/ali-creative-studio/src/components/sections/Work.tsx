@@ -130,11 +130,12 @@ export function Work() {
           className="flex items-end justify-between"
         >
           <h2
-            className="text-white font-black uppercase leading-none select-none"
+            className="text-white uppercase leading-none select-none"
             style={{
               fontFamily: "'Inter Tight', sans-serif",
               fontSize: "clamp(3.5rem,10vw,11rem)",
-              letterSpacing: "-0.03em",
+              fontWeight: 200,
+              letterSpacing: "-0.02em",
               lineHeight: 0.9,
             }}
           >
