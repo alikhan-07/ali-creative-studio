@@ -1,38 +1,42 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const SERVICES = [
   {
     index: "01",
     title: "Branding",
-    desc: "Identity systems, logos & visual language",
+    desc: "Visual identity systems, logos & brand language built to last",
+    stagger: "0rem",
   },
   {
     index: "02",
     title: "Social Media Creatives",
-    desc: "Scroll-stopping content for every platform",
+    desc: "Scroll-stopping content crafted for every platform",
+    stagger: "7rem",
   },
   {
     index: "03",
     title: "Promotion Designs",
-    desc: "Campaigns, ads & launch visuals",
+    desc: "Campaign visuals, ads & launch assets that convert",
+    stagger: "2.5rem",
   },
   {
     index: "04",
     title: "Packaging Designs",
-    desc: "Shelf-ready packaging that sells",
+    desc: "Shelf-ready packaging that commands attention",
+    stagger: "9rem",
   },
   {
     index: "05",
     title: "Brochure Design",
-    desc: "Print & digital collateral that converts",
+    desc: "Print & digital collateral with precision and clarity",
+    stagger: "4.5rem",
   },
 ];
 
 export function Services() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <section
@@ -41,166 +45,141 @@ export function Services() {
       className="relative w-full"
       style={{ background: "#050505" }}
     >
-      {/* Top rule */}
-      <div className="w-full h-[1px] bg-white/8" />
-
       <div
         style={{
           paddingLeft: "clamp(1.5rem,4vw,3.5rem)",
           paddingRight: "clamp(1.5rem,4vw,3.5rem)",
+          paddingTop: "clamp(3rem,6vw,5rem)",
         }}
       >
-        {/* Section header */}
-        <motion.div
+        {/* Section eyebrow */}
+        <motion.p
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            alignItems: "end",
-            paddingTop: "clamp(3rem,6vw,5rem)",
-            paddingBottom: "clamp(2rem,4vw,3.5rem)",
-            gap: "2rem",
+            fontFamily: "'Inter Tight', sans-serif",
+            fontSize: "9px",
+            fontWeight: 500,
+            letterSpacing: "0.3em",
+            color: "rgba(255,255,255,0.25)",
+            textTransform: "uppercase",
+            marginBottom: "0.75rem",
           }}
         >
-          {/* Left — big editorial label */}
-          <h2
-            className="text-white leading-none select-none"
-            style={{
-              fontFamily: "'Inter Tight', sans-serif",
-              fontSize: "clamp(3.5rem,10vw,11rem)",
-              fontWeight: 200,
-              letterSpacing: "-0.03em",
-              lineHeight: 0.9,
-            }}
-          >
-            Services
-          </h2>
+          (02) — Capabilities
+        </motion.p>
 
-          {/* Right — section meta */}
-          <div
-            className="flex flex-col items-end gap-1 pb-2 flex-shrink-0"
-          >
-            <span
-              className="text-white/25 uppercase"
-              style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: "9px",
-                letterSpacing: "0.3em",
-                fontWeight: 500,
-              }}
-            >
-              (02) — Capabilities
-            </span>
-            <span
-              className="text-white/15"
-              style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: "9px",
-                letterSpacing: "0.15em",
-                fontWeight: 300,
-              }}
-            >
-              {SERVICES.length} Disciplines
-            </span>
-          </div>
-        </motion.div>
+        {/* HUGE heading — bold like the reference */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            fontFamily: "'Inter Tight', sans-serif",
+            fontSize: "clamp(4.5rem,14vw,16rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 0.88,
+            color: "#ffffff",
+            textTransform: "uppercase",
+            marginBottom: "clamp(1.5rem,3vw,2.5rem)",
+          }}
+        >
+          Services
+        </motion.h2>
 
-        {/* Divider */}
+        {/* Rule */}
         <motion.div
-          className="h-[1px] bg-white/6"
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ transformOrigin: "left", marginBottom: 0 }}
+          style={{
+            height: "1px",
+            background: "rgba(255,255,255,0.15)",
+            transformOrigin: "left",
+            marginBottom: "clamp(2.5rem,5vw,4rem)",
+          }}
         />
 
-        {/* Service rows */}
-        {SERVICES.map((svc, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.65,
-              delay: 0.15 + i * 0.07,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "3rem 1fr auto",
-              alignItems: "center",
-              gap: "0 2rem",
-              paddingTop: "clamp(1.1rem,2.2vw,1.75rem)",
-              paddingBottom: "clamp(1.1rem,2.2vw,1.75rem)",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              cursor: "default",
-              transition: "background 0.25s",
-              background:
-                hovered === i
-                  ? "rgba(255,255,255,0.025)"
-                  : "transparent",
-            }}
-          >
-            {/* Index */}
-            <span
+        {/* Staggered service grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: "0 clamp(1rem,2vw,2rem)",
+            paddingBottom: "clamp(4rem,8vw,7rem)",
+            alignItems: "start",
+          }}
+        >
+          {SERVICES.map((svc, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.7,
+                delay: 0.2 + i * 0.09,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: "9px",
-                fontWeight: 400,
-                letterSpacing: "0.2em",
-                color:
-                  hovered === i
-                    ? "rgba(255,255,255,0.4)"
-                    : "rgba(255,255,255,0.18)",
-                transition: "color 0.25s",
+                paddingTop: svc.stagger,
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5rem",
               }}
             >
-              {svc.index}
-            </span>
+              {/* Index */}
+              <span
+                style={{
+                  fontFamily: "'Inter Tight', sans-serif",
+                  fontSize: "9px",
+                  fontWeight: 400,
+                  letterSpacing: "0.2em",
+                  color: "rgba(255,255,255,0.3)",
+                  marginBottom: "0.25rem",
+                  display: "block",
+                }}
+              >
+                {svc.index}
+              </span>
 
-            {/* Service name */}
-            <span
-              style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: "clamp(1.25rem,3vw,2.5rem)",
-                fontWeight: hovered === i ? 300 : 200,
-                letterSpacing: "-0.02em",
-                lineHeight: 1,
-                color:
-                  hovered === i
-                    ? "rgba(255,255,255,0.95)"
-                    : "rgba(255,255,255,0.55)",
-                transition: "color 0.25s, font-weight 0.25s",
-              }}
-            >
-              {svc.title}
-            </span>
+              {/* Service name — bold + em dash style */}
+              <p
+                style={{
+                  fontFamily: "'Inter Tight', sans-serif",
+                  fontSize: "clamp(0.7rem,1.1vw,1rem)",
+                  fontWeight: 700,
+                  letterSpacing: "0.02em",
+                  lineHeight: 1.25,
+                  color: "rgba(255,255,255,0.9)",
+                  textTransform: "uppercase",
+                  margin: 0,
+                }}
+              >
+                {svc.title} —
+              </p>
 
-            {/* Descriptor — right aligned, only visible on hover */}
-            <span
-              style={{
-                fontFamily: "'Inter Tight', sans-serif",
-                fontSize: "clamp(0.6rem,0.9vw,0.78rem)",
-                fontWeight: 300,
-                letterSpacing: "0.04em",
-                color: "rgba(255,255,255,0.28)",
-                textAlign: "right",
-                opacity: hovered === i ? 1 : 0,
-                transition: "opacity 0.25s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {svc.desc}
-            </span>
-          </motion.div>
-        ))}
+              {/* Description */}
+              <p
+                style={{
+                  fontFamily: "'Inter Tight', sans-serif",
+                  fontSize: "clamp(0.6rem,0.85vw,0.78rem)",
+                  fontWeight: 300,
+                  letterSpacing: "0.02em",
+                  lineHeight: 1.55,
+                  color: "rgba(255,255,255,0.35)",
+                  margin: 0,
+                }}
+              >
+                {svc.desc}
+              </p>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* Bottom spacing */}
-        <div style={{ paddingBottom: "clamp(3rem,6vw,5rem)" }} />
+        {/* Bottom rule */}
+        <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
       </div>
     </section>
   );
