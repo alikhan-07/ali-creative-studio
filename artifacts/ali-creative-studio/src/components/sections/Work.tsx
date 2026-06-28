@@ -2,48 +2,63 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
 const projects = [
-  {
-    num: "01", title: "Aura Dynamics", category: "Brand Identity", year: "2024",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
-    corner: "A",
-  },
-  {
-    num: "02", title: "Neuro Engine", category: "Digital Platform", year: "2023",
-    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800&auto=format&fit=crop",
-    corner: "2",
-  },
-  {
-    num: "03", title: "Syndicate X", category: "Identity & Web3", year: "2023",
-    image: "https://images.unsplash.com/photo-1634986666676-ec8fd927c23d?q=80&w=800&auto=format&fit=crop",
-    corner: "3",
-  },
-  {
-    num: "04", title: "Pulse Studio", category: "UI/UX Design", year: "2024",
-    image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop",
-    corner: "4",
-  },
-  {
-    num: "05", title: "Orbital Labs", category: "Motion & 3D", year: "2023",
-    image: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800&auto=format&fit=crop",
-    corner: "5",
-  },
-  {
-    num: "06", title: "Cipher Works", category: "Web Development", year: "2024",
-    image: "https://images.unsplash.com/photo-1604076913837-52ab5629fde7?q=80&w=800&auto=format&fit=crop",
-    corner: "6",
-  },
+  { num: "01", title: "Aura Dynamics", category: "Brand Identity", year: "2024", image: "/portfolio/01.webp", corner: "A" },
+  { num: "02", title: "Neuro Engine", category: "Digital Platform", year: "2024", image: "/portfolio/02.webp", corner: "N" },
+  { num: "03", title: "Syndicate X", category: "Identity & Web3", year: "2024", image: "/portfolio/03.webp", corner: "S" },
+  { num: "04", title: "Pulse Studio", category: "UI/UX Design", year: "2024", image: "/portfolio/4.webp", corner: "P" },
+  { num: "05", title: "Orbital Labs", category: "Motion & 3D", year: "2024", image: "/portfolio/5.webp", corner: "O" },
+  { num: "06", title: "Cipher Works", category: "Web Development", year: "2024", image: "/portfolio/6.webp", corner: "C" },
+  { num: "07", title: "Aether Brand", category: "Visual System", year: "2024", image: "/portfolio/7.webp", corner: "E" },
+  { num: "08", title: "Vortex Core", category: "Motion Graphics", year: "2024", image: "/portfolio/8.webp", corner: "V" },
+  { num: "09", title: "Apex Studio", category: "Graphic Design", year: "2024", image: "/portfolio/9.webp", corner: "X" },
+  { num: "10", title: "Helix Design", category: "Creative Identity", year: "2024", image: "/portfolio/10.webp", corner: "H" },
+  { num: "11", title: "Spectra Tech", category: "Digital Product", year: "2024", image: "/portfolio/11.webp", corner: "T" },
+  { num: "12", title: "Nexus Media", category: "Social Creatives", year: "2024", image: "/portfolio/12.webp", corner: "M" },
+  { num: "13", title: "Luminary Arts", category: "Packaging Design", year: "2024", image: "/portfolio/13.webp", corner: "L" },
+  { num: "14", title: "Quantum Labs", category: "Identity & Web3", year: "2024", image: "/portfolio/14.webp", corner: "Q" },
+  { num: "15", title: "Ignite Brand", category: "Campaign Design", year: "2024", image: "/portfolio/15.webp", corner: "I" },
+  { num: "16", title: "Zenith Studio", category: "UI/UX Design", year: "2024", image: "/portfolio/16.webp", corner: "Z" },
+  { num: "17", title: "Nova Platform", category: "Visual Brand", year: "2024", image: "/portfolio/17.webp", corner: "W" },
+  { num: "18", title: "Echo Design", category: "Packaging Art", year: "2024", image: "/portfolio/18.webp", corner: "K" },
+  { num: "19", title: "Vector Core", category: "Motion Graphics", year: "2024", image: "/portfolio/19.webp", corner: "R" },
+  { num: "20", title: "Obsidian Art", category: "Creative Strategy", year: "2024", image: "/portfolio/20.webp", corner: "B" },
+  { num: "21", title: "Summit Design", category: "Brand Experience", year: "2024", image: "/portfolio/21.webp", corner: "S" },
+  { num: "22", title: "Velocity Platform", category: "Digital Strategy", year: "2024", image: "/portfolio/22.webp", corner: "Y" },
+  { num: "23", title: "Vanguard Studio", category: "Campaign Identity", year: "2024", image: "/portfolio/23.webp", corner: "G" },
+  { num: "24", title: "Elysian Labs", category: "UI/UX Architecture", year: "2024", image: "/portfolio/24.webp", corner: "F" },
+  { num: "25", title: "Astra Media", category: "Visual Narrative", year: "2024", image: "/portfolio/25.webp", corner: "A" },
+  { num: "26", title: "Synthesis X", category: "Platform Design", year: "2024", image: "/portfolio/26.webp", corner: "H" },
+  { num: "27", title: "Krypton Labs", category: "Blockchain Interface", year: "2024", image: "/portfolio/27.webp", corner: "K" },
+  { num: "28", title: "Chroma Agency", category: "Color & Identity", year: "2024", image: "/portfolio/28.webp", corner: "M" },
+  { num: "29", title: "Ember Graphics", category: "Marketing Collateral", year: "2024", image: "/portfolio/29.webp", corner: "E" },
+  { num: "30", title: "Matrix Core", category: "Development & Design", year: "2024", image: "/portfolio/30.webp", corner: "X" },
+  { num: "31", title: "Pinnacle Brands", category: "Packaging Systems", year: "2024", image: "/portfolio/31.webp", corner: "P" },
+  { num: "32", title: "Atlas Creative", category: "Corporate Identity", year: "2024", image: "/portfolio/32.webp", corner: "T" },
+  { num: "33", title: "Solstice Studio", category: "Creative Campaign", year: "2024", image: "/portfolio/33.webp", corner: "D" },
+  { num: "34", title: "Prism Digital", category: "Interactive Systems", year: "2024", image: "/portfolio/34.webp", corner: "W" },
+  { num: "35", title: "Stellar Brand", category: "Visual Systems", year: "2024", image: "/portfolio/35.webp", corner: "R" },
+  { num: "36", title: "Mirage Labs", category: "Design Concept", year: "2024", image: "/portfolio/36.webp", corner: "V" },
+  { num: "37", title: "Nucleus Design", category: "Identity Systems", year: "2024", image: "/portfolio/38.webp", corner: "N" },
+  { num: "38", title: "Omni Brand", category: "Digital Growth", year: "2024", image: "/portfolio/39.webp", corner: "O" },
+  { num: "39", title: "Aero Media", category: "Marketing Visuals", year: "2024", image: "/portfolio/40.webp", corner: "A" },
+  { num: "40", title: "Genesis Lab", category: "Web Architecture", year: "2024", image: "/portfolio/41.webp", corner: "G" },
+  { num: "41", title: "Volt Studio", category: "Interactive Design", year: "2024", image: "/portfolio/42.webp", corner: "U" },
+  { num: "42", title: "Apex Visuals", category: "Digital Content", year: "2024", image: "/portfolio/43.webp", corner: "V" },
+  { num: "43", title: "Tectonic Identity", category: "Corporate Branding", year: "2024", image: "/portfolio/44.webp", corner: "F" },
+  { num: "44", title: "Element Designs", category: "Minimalist Branding", year: "2024", image: "/portfolio/45.webp", corner: "M" },
+  { num: "45", title: "Fluid Concept", category: "Fluid Brand Systems", year: "2024", image: "/portfolio/46.webp", corner: "E" },
 ];
 
 const UNIT = projects.length;
 // Repeat 5× so infinite loop feels seamless
 const CARDS = [...projects, ...projects, ...projects, ...projects, ...projects];
 
-const CARD_W = 210;
+const CARD_W = 240;
 const CARD_H = 300;
 const GAP = 20;
 const STRIDE = CARD_W + GAP;
 const ACTIVE_SCALE = 1.30;
-const SCROLL_SPEED = 0.55; // px per frame
+const SCROLL_SPEED = 1.0; // Increased speed (px per frame)
 
 function Suit() {
   return (
@@ -58,6 +73,54 @@ export function Work() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
   const isHoveringRef = useRef(false);
+
+  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setIsMouseDown(true);
+    isHoveringRef.current = true; // Stop auto-scrolling
+    setStartX(e.pageX - el.offsetLeft);
+    setScrollLeftState(el.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMouseDown(false);
+    isHoveringRef.current = false; // Resume auto-scrolling
+    setHoveredIdx(null);
+  };
+
+  const handleMouseUp = () => {
+    setIsMouseDown(false);
+    isHoveringRef.current = false; // Resume auto-scrolling
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDown) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX) * 1.5; // Drag speed multiplier
+    el.scrollLeft = scrollLeftState - walk;
+  };
+
+  useEffect(() => {
+    if (!isMouseDown) return;
+
+    const handleGlobalMouseUp = () => {
+      setIsMouseDown(false);
+      isHoveringRef.current = false;
+    };
+
+    window.addEventListener("mouseup", handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener("mouseup", handleGlobalMouseUp);
+    };
+  }, [isMouseDown]);
 
   const inView = useInView(sectionRef, { once: true, margin: "-60px" });
 
@@ -166,7 +229,6 @@ export function Work() {
       {/* ── Scrolling card track ── */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto"
         style={{
           gap: GAP,
           paddingLeft: "clamp(1.5rem,4vw,3.5rem)",
@@ -177,8 +239,12 @@ export function Work() {
           msOverflowStyle: "none",
           userSelect: "none",
         }}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
         onMouseEnter={() => { isHoveringRef.current = true; }}
-        onMouseLeave={() => { isHoveringRef.current = false; setHoveredIdx(null); }}
+        className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none"
       >
         {CARDS.map((project, i) => {
           const projIdx = i % UNIT;
@@ -214,28 +280,11 @@ export function Work() {
                   transition: "border-color 0.3s",
                 }}
               >
-                {/* Top-left corner */}
-                <div className="absolute top-3 left-3 z-20 flex flex-col items-center gap-[2px]"
-                  style={{ color: isActive ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)" }}>
-                  <span style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: 13, fontWeight: 700, lineHeight: 1 }}>
-                    {project.corner}
-                  </span>
-                  <Suit />
-                </div>
-
-                {/* Bottom-right corner (rotated) */}
-                <div className="absolute bottom-3 right-3 z-20 flex flex-col items-center gap-[2px]"
-                  style={{ color: isActive ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)", transform: "rotate(180deg)" }}>
-                  <span style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: 13, fontWeight: 700, lineHeight: 1 }}>
-                    {project.corner}
-                  </span>
-                  <Suit />
-                </div>
-
                 {/* Image */}
                 <img
                   src={project.image}
                   alt={project.title}
+                  draggable="false"
                   style={{
                     width: "100%", height: "100%", objectFit: "cover",
                     filter: isActive

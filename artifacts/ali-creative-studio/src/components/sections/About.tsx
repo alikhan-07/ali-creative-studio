@@ -14,9 +14,9 @@ export function About() {
         >
           <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10 opacity-60" />
           <img 
-            src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop" 
-            alt="Studio atmosphere" 
-            className="w-full h-full object-cover grayscale opacity-70 mix-blend-luminosity"
+            src="/you.png" 
+            alt="About Ali Creative Studio" 
+            className="w-full h-full object-cover grayscale opacity-80 hover:grayscale-0 transition-all duration-700 ease-out"
           />
         </motion.div>
 
@@ -32,17 +32,17 @@ export function About() {
           </div>
           
           <h2 className="text-3xl md:text-5xl font-light tracking-tight mb-8 leading-tight">
-            We are a small, elite team of designers and engineers building the next generation of the web.
+            We Don’t Just Design. We Build Visual Legacies.
           </h2>
           
-          <p className="text-base md:text-lg text-foreground/50 font-light leading-relaxed mb-8">
-            Founded on the belief that digital experiences should feel as meticulously crafted as physical objects. We don't use templates. We don't cut corners. We build from the ground up to create something entirely yours.
-          </p>
-
-          <button className="group relative overflow-hidden px-8 py-4 border border-white/20 text-xs uppercase tracking-widest hover:border-white/50 transition-colors">
-            <span className="relative z-10">Meet the Team</span>
-            <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-          </button>
+          <div className="text-base md:text-lg text-foreground/50 font-light leading-relaxed mb-8 space-y-6">
+            <p>
+              At Ali Creative Studio, we believe that exceptional design is the silent ambassador of your brand. In a digital world crowded with noise, standing out requires more than just aesthetics—it requires strategy, precision, and raw creativity.
+            </p>
+            <p>
+              Based in India and serving clients globally, we are a premier graphic design studio dedicated to turning complex brand visions into striking visual realities. Whether you are a startup launching your identity or an established enterprise scaling your marketing, we craft the visual assets that command attention and drive conversion.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>

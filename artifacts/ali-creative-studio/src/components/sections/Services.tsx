@@ -78,8 +78,8 @@ export function Services() {
           style={{
             fontFamily: "'Inter Tight', sans-serif",
             fontSize: "clamp(4.5rem,14vw,16rem)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
+            fontWeight: 200,
+            letterSpacing: "-0.02em",
             lineHeight: 0.88,
             color: "#ffffff",
             textTransform: "uppercase",

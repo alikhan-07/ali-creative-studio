@@ -11,13 +11,13 @@ const stats = [
   {
     index: "02",
     label: "Years of Experience",
-    value: "8+",
-    desc: "Designing scalable digital products since 2016",
+    value: "5+",
+    desc: "Designing scalable digital products since 2021",
   },
   {
     index: "03",
     label: "Delivered Projects",
-    value: "60+",
+    value: "100+",
     desc: "Across SaaS, AI & digital platforms",
   },
   {
